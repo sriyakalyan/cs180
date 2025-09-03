@@ -1,15 +1,149 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Portfolio</title>
+    <title>CS 180 - Project 0</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: "Raleway", "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fff5f8; 
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .proj-spec {
+            background: #ffd6e8;
+            border-left: 6px solid #f78fb3;
+            margin: 20px auto;
+            padding: 15px 20px;
+            width: 85%;
+            max-width: 900px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .proj-spec a {
+            color: #c44569;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .proj-spec a:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(135deg, #ffccd5, #ffcce7);
+            color: #5a2a36;
+            padding: 30px 10px;
+            margin: 0 0 30px 0;
+            font-size: 2em;
+            border-bottom: 4px solid #f3a6b5;
+            font-weight: bold;
+        }
+
+        .part {
+            background: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            width: 85%;
+            max-width: 900px;
+            border-radius: 16px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .part:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        h2 {
+            color: #b84c65;
+            margin-top: 0;
+        }
+
+        p {
+            color: #555;
+        }
+
+        .photo-container {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .photo-container img {
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .photo-container img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .photo-label {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 6px;
+            color: #7a4456;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <h1>Project 0</h1>
+    <h1>Programming Project #0: Becoming Friends with Your Camera</h1>
+
+    <div class="part">
+        <h2>Part 1: Selfie: The Wrong Way vs. The Right Way</h2>
+        <p>Three stages of selfies from different distances and levels of zoom</p>
+        <div style="text-align: center;">
+            <div class="photo-container">
+                <img src="assets/part1-a.png" alt="Close-Up Photo" width="300px">
+                <div class="photo-label">Close-Up Photo</div>
+            </div>
+            <div class="photo-container">
+                <img src="assets/part1-b.png" alt="Zoomed-In Photo" width="300px">
+                <div class="photo-label">Zoomed-In Photo</div>
+            </div>
+            <div class="photo-container">
+                <img src="assets/part1-c.png" alt="Even More Zoomed-In Photo" width="300px">
+                <div class="photo-label">Even More Zoomed-In Photo</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="part">
+        <h2>Part 2: Architectural Perspective Compression</h2>
+        <p>Street views from Two Angles</p>
+        <div style="text-align: center;">
+            <div class="photo-container">
+                <img src="assets/part2-a.png" alt="Zoomed-In Photo" width="300px">
+                <div class="photo-label">Zoomed-In Photo</div>
+            </div>
+            <div class="photo-container">
+                <img src="assets/part2-b.png" alt="Close-Up Photo" width="300px">
+                <div class="photo-label">Close-Up Photo</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="part">
+        <h2>Part 3: The Dolly Zoom</h2>
+        <p>Dolly Zoom of Haroldo the Snorlax</p>
+        <div style="text-align: center;">
+            <div class="photo-container">
+                <img src="assets/haroldo.gif" alt="Haroldo" width="300px">
+                <div class="photo-label">Haroldo the Snorlax</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="proj-spec">
+        Project 0 Spec: <a href="https://cal-cs180.github.io/fa25/hw/proj0/index.html" target="_blank">
+        Becoming Friends with Your Camera</a>
+    </div>
 </body>
 </html>
