@@ -126,24 +126,21 @@
     <!-- Overview -->
     <div class="part">
         <h2>Overview</h2>
-        <p>Aligned images using a single-scale exhaustive search.</p>
-        <div style="text-align: center;">
-            <div class="photo-container">
-                <img class="aligned" src="assets/part1_img1.jpg" alt="Aligned Image 1">
-                <img class="original" src="assets/part1_img1_original.jpg" alt="Original Image 1">
-                <div class="photo-label">Image 1</div>
-                <div class="metrics">
-                    Displacement: (<span id="part1-img1-dx"></span>, <span id="part1-img1-dy"></span>)<br>
-                    Time: <span id="part1-img1-time"></span> sec
-                </div>
-            </div>
-        </div>
+        <p>
+            Sergei Mikhailovich Prokudin-Gorskii travelled across the Russian Empire to take photographs of what he saw. In order to take color pictures, he decided to take three exposures of every scene using a red, green, and blue filter. Combining these photos allows us to see these images in color.
+            <br><br>
+            Simply splitting the original image into 3 and stacking them is not enough. Some alignment is needed to ensure the most accurate representation of what Sergei saw at the time.
+        </p>
     </div>
 
     <!-- Part 1: Single-Scale Implementation -->
     <div class="part">
         <h2>Part 1: Single-Scale Implementation</h2>
-        <p>Aligned images using a single-scale exhaustive search.</p>
+        <p>
+            For single-scale implementation, the red and green images were cropped and then compared to the blue image in order to find the best alignment. Images were displaced with a range of -15 to 15 in both the x and y axes. To determine the best fitting displaced image, the Euclidean Distance (the sum taken over the pixel values) between the displaced image and the control (the blue channel) was taken. The lower the Euclidean Distance, the better the match.
+            <br><br>
+            While this was quick for smaller images, the algorithm would prove to be inefficient with larger files.
+        </p>
         <div style="text-align: center;">
             <div class="photo-container">
                 <img class="aligned" src="assets/aligned/cathedral_out.jpeg" alt="Aligned Cathedral">
@@ -183,7 +180,13 @@
     <!-- Part 2: Multi-Scale Pyramid Alignment -->
     <div class="part">
         <h2>Part 2: Multi-Scale Pyramid Alignment</h2>
-        <p>Aligned images using coarse-to-fine image pyramid search.</p>
+        <p>
+            Because the single-scale approach was inefficient for larger files, it was essential to find an alternative that could search for alignment much faster. For a larger resolution image, searching over a much larger area is essential; However, with the single-scale method, this would prove to be very inefficient, as thousands of interations would have to run to search a sufficient area.
+            <br><br>
+            Multi-scale pyramid alignment utilizes a coarse to fine strategy. Starting with a coarse image (1/16th of the original size of the image), the best displacement was found within the same range of -15 to 15 pixels in both axes. After scaling up by 2 each time, the displacement was also doubled and once again, the best displacement was found within the range of -15 to 15 pixels. This allows us to "double" our search area with each iteration and refine our results.
+            <br><br>
+            Using a NCC metric was considered, but certain functions used to implement NCC has overhead runtime that slowed down the runtime. Additionally, with the exception of Emir, the difference in intensities of the channel was negligible enough to allow for Euclidean Distance to be an accurate metric. As a result, the simple Euclidean Distance was used in the end.
+        </p>
         <div style="text-align: center;">
             <div style="text-align: center;">
                 <div class="photo-container">
@@ -343,18 +346,41 @@
         </div>
     </div>
 
-    <!-- Part 3: Bells & Whistles / Custom Enhancements -->
+    <!-- Part 3: Extra Images -->
     <div class="part">
-        <h2>Part 3: Bells & Whistles / Custom Enhancements</h2>
-        <p>Optional enhancements like white balance, automatic cropping, or better color mapping.</p>
+        <h2>Part 3: Extra Images</h2>
+        <p>These are some extra images that had a certain charm to them.</p>
         <div style="text-align: center;">
             <div class="photo-container">
-                <img class="aligned" src="assets/part3_img1.jpg" alt="Aligned Image 1">
-                <img class="original" src="assets/part3_img1_original.jpg" alt="Original Image 1">
-                <div class="photo-label">Image 1</div>
+                <img class="aligned" src="assets/aligned/boat_out.jpeg" alt="Aligned Boat">
+                <img class="original" src="assets/original/boat.jpeg" alt="Original Boat">
+                <div class="photo-label">Boat</div>
                 <div class="metrics">
-                    Displacement: (<span id="part3-img1-dx"></span>, <span id="part3-img1-dy"></span>)<br>
-                    Time: <span id="part3-img1-time"></span> sec
+                    Red Displacement: [16, 20]<br>
+                    Green Displacement: [-32, 10]<br>
+                    Time: 49.28 sec
+                </div>
+            </div>
+
+            <div class="photo-container">
+                <img class="aligned" src="assets/aligned/quarry_out.jpeg" alt="Aligned Quarry">
+                <img class="original" src="assets/original/quarry.jpeg" alt="Original Quarry">
+                <div class="photo-label">Quarry</div>
+                <div class="metrics">
+                    Red Displacement: [130, -9]<br>
+                    Green Displacement: [41, -3]<br>
+                    Time: 54.94 sec
+                </div>
+            </div>
+
+            <div class="photo-container">
+                <img class="aligned" src="assets/aligned/wharf_out.jpeg" alt="Aligned Wharf">
+                <img class="original" src="assets/original/wharf.jpeg" alt="Original Wharf">
+                <div class="photo-label">Wharf</div>
+                <div class="metrics">
+                    Red Displacement: [95, 29]<br>
+                    Green Displacement: [23, 15]<br>
+                    Time: 54.62 sec
                 </div>
             </div>
         </div>
@@ -363,19 +389,21 @@
     <!-- Part 4: Challenges / Failures -->
     <div class="part">
         <h2>Part 4: Challenges / Failures</h2>
-        <p>Images that failed to align correctly and notes about why.</p>
+        <p>
+            The Emir photograph did not align properly at all. This is due to the varying brightness channels of the glass plates. I attempted to resolve this issue by switching to the NCC metric, but this not only didn't work, it made my program much slower. I will never go back. Please help.
+            <br><br>
+            This can be solved by using Sobel and using the edges to better align the image. I was sleepy so I did not end up doing this.
+        </p>
         <div style="text-align: center;">
             <div class="photo-container">
-                <img class="aligned" src="assets/part4_img1.jpg" alt="Problematic Image 1">
-                <img class="original" src="assets/part4_img1_original.jpg" alt="Original Image 1">
-                <div class="photo-label">Image 1</div>
-                <div class="metrics">
-                    Notes: <span id="part4-img1-notes"></span><br>
-                    Displacement: (<span id="part4-img1-dx"></span>, <span id="part4-img1-dy"></span>)<br>
-                    Time: <span id="part4-img1-time"></span> sec
-                </div>
+                <img class="aligned" src="assets/aligned/emir_out.jpeg" alt="Aligned Emir">
+                <img class="original" src="assets/original/emir.jpeg" alt="Original Emir">
+                <div class="photo-label">Emir</div>
             </div>
         </div>
+        <p>
+            Another issue I ran into at the beginning of this project was not being able to find a proper alignment within the range of -15 to 15 pixels. This was solved by cropping 10% off of each edge. This allowed the alignment function to run on only the images and not the extra borders.
+        </p>
     </div>
 
     <div class="proj-spec">
