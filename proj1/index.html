@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CS 180: Project 1</title>
+    <style>
+        body {
+            font-family: "Raleway", "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fff5f8; 
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(135deg, #ffccd5, #ffcce7);
+            color: #5a2a36;
+            padding: 30px 10px;
+            margin: 0 0 30px 0;
+            font-size: 2em;
+            border-bottom: 4px solid #f3a6b5;
+            font-weight: bold;
+        }
+
+        h1 a {
+            color: inherit;
+            text-decoration: underline;
+        }
+
+        .part {
+            background: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            width: 85%;
+            max-width: 1000px;
+            border-radius: 16px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .part:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        h2 {
+            color: #b84c65;
+            margin-top: 0;
+        }
+
+        .photo-container {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+            vertical-align: top;
+            width: 200px;        /* fixed container width */
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Aligned image */
+        .photo-container img.aligned {
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            width: 100%;
+            height: auto;
+        }
+
+        /* Original image: positioned absolutely, shrinks to fit */
+        .photo-container img.original {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;        /* scale to container width */
+            height: 100%;       /* scale to container height */
+            object-fit: contain; /* preserve aspect ratio, shrink if needed */
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Hover: show original, hide aligned */
+        .photo-container:hover img.original {
+            opacity: 1;
+        }
+        .photo-container:hover img.aligned {
+            opacity: 0;
+        }
+
+
+        .metrics {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .proj-spec {
+            background: #ffd6e8;
+            border-left: 6px solid #f78fb3;
+            margin: 20px auto;
+            padding: 15px 20px;
+            width: 85%;
+            max-width: 900px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .proj-spec a {
+            color: #c44569;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .proj-spec a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        Programming Project #1: Aligning The 
+        <a href="https://www.loc.gov/collections/prokudin-gorskii/" target="_blank">Prokudin-Gorskii</a> Images        
+    </h1>
+
+    <!-- Overview -->
+    <div class="part">
+        <h2>Overview</h2>
+        <p>Aligned images using a single-scale exhaustive search.</p>
+        <div style="text-align: center;">
+            <div class="photo-container">
+                <img class="aligned" src="assets/part1_img1.jpg" alt="Aligned Image 1">
+                <img class="original" src="assets/part1_img1_original.jpg" alt="Original Image 1">
+                <div class="photo-label">Image 1</div>
+                <div class="metrics">
+                    Displacement: (<span id="part1-img1-dx"></span>, <span id="part1-img1-dy"></span>)<br>
+                    Time: <span id="part1-img1-time"></span> sec
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Part 1: Single-Scale Implementation -->
+    <div class="part">
+        <h2>Part 1: Single-Scale Implementation</h2>
+        <p>Aligned images using a single-scale exhaustive search.</p>
+        <div style="text-align: center;">
+            <div class="photo-container">
+                <img class="aligned" src="assets/aligned/cathedral_out.jpeg" alt="Aligned Cathedral">
+                <img class="original" src="assets/original/cathedral.jpeg" alt="Original Cathedral">
+                <div class="photo-label">Cathedral</div>
+                <div class="metrics">
+                        Red Displacement: [12, 3]<br>
+                        Green Displacement: [5, 2]<br>
+                        Time: 0.88 sec
+                    </div>
+            </div>
+
+            <div class="photo-container">
+                <img class="aligned" src="assets/aligned/monastery_out.jpeg" alt="Aligned Monastery">
+                <img class="original" src="assets/original/monastery.jpeg" alt="Original Monastery">
+                <div class="photo-label">Monastery</div>
+                <div class="metrics">
+                        Red Displacement: [3, 2]<br>
+                        Green Displacement: [-3, 2]<br>
+                        Time: 0.94 sec
+                    </div>
+            </div>
+
+            <div class="photo-container">
+                <img class="aligned" src="assets/aligned/tobolsk_out.jpeg" alt="Aligned Tobolsk">
+                <img class="original" src="assets/original/tobolsk.jpeg" alt="Original Image 1">
+                <div class="photo-label">Tobolsk</div>
+                <div class="metrics">
+                        Red Displacement: [6, 3]<br>
+                        Green Displacement: [3, 3]<br>
+                        Time: 1.00 sec
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Part 2: Multi-Scale Pyramid Alignment -->
+    <div class="part">
+        <h2>Part 2: Multi-Scale Pyramid Alignment</h2>
+        <p>Aligned images using coarse-to-fine image pyramid search.</p>
+        <div style="text-align: center;">
+            <div style="text-align: center;">
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/cathedral_out.jpeg" alt="Aligned Cathedral">
+                    <img class="original" src="assets/original/cathedral.jpeg" alt="Original Cathedral">
+                    <div class="photo-label">Cathedral</div>
+                    <div class="metrics">
+                        Red Displacement: [12, 3]<br>
+                        Green Displacement: [5, 2]<br>
+                        Time: 0.81 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/monastery_out.jpeg" alt="Aligned Monastery">
+                    <img class="original" src="assets/original/monastery.jpeg" alt="Original Monastery">
+                    <div class="photo-label">Monastery</div>
+                    <div class="metrics">
+                        Red Displacement: [3, 2]<br>
+                        Green Displacement: [-3, 2]<br>
+                        Time: 0.55 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/tobolsk_out.jpeg" alt="Aligned Tobolsk">
+                    <img class="original" src="assets/original/tobolsk.jpeg" alt="Original Tobolsk">
+                    <div class="photo-label">Tobolsk</div>
+                    <div class="metrics">
+                        Red Displacement: [6, 3]<br>
+                        Green Displacement: [3, 3]<br>
+                        Time: 0.51 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/church_out.jpeg" alt="Aligned Church">
+                    <img class="original" src="assets/original/church.jpeg" alt="Original Church">
+                    <div class="photo-label">Church</div>
+                    <div class="metrics">
+                        Red Displacement: [58, -4]<br>
+                        Green Displacement: [25, 4]<br>
+                        Time: 48.47 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/emir_out.jpeg" alt="Aligned Emir">
+                    <img class="original" src="assets/original/emir.jpeg" alt="Original Emir">
+                    <div class="photo-label">Emir</div>
+                    <div class="metrics">
+                        Red Displacement: [93, -305]<br>
+                        Green Displacement: [49, 24]<br>
+                        Time: 52.85 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/harvesters_out.jpeg" alt="Aligned Harvesters">
+                    <img class="original" src="assets/original/harvesters.jpeg" alt="Original Harvesters">
+                    <div class="photo-label">Harvesters</div>
+                    <div class="metrics">
+                        Red Displacement: [124, 13]<br>
+                        Green Displacement: [59, 16]<br>
+                        Time: 51.93 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/icon_out.jpeg" alt="Aligned Icon">
+                    <img class="original" src="assets/original/icon.jpeg" alt="Original Icon">
+                    <div class="photo-label">Icon</div>
+                    <div class="metrics">
+                        Red Displacement: [89, 23]<br>
+                        Green Displacement: [41, 17]<br>
+                        Time: 53.47 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/italil_out.jpeg" alt="Aligned Italil">
+                    <img class="original" src="assets/original/italil.jpeg" alt="Original Italil">
+                    <div class="photo-label">Italil</div>
+                    <div class="metrics">
+                        Red Displacement: [76, 35]<br>
+                        Green Displacement: [38, 21]<br>
+                        Time: 52.96 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/lastochikino_out.jpeg" alt="Aligned Lastochikino">
+                    <img class="original" src="assets/original/lastochikino.jpeg" alt="Original Lastochikino">
+                    <div class="photo-label">Lastochikino</div>
+                    <div class="metrics">
+                        Red Displacement: [75, -8]<br>
+                        Green Displacement: [-2, -2]<br>
+                        Time: 52.64 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/lugano_out.jpeg" alt="Aligned Lugano">
+                    <img class="original" src="assets/original/lugano.jpeg" alt="Original Lugano">
+                    <div class="photo-label">Lugano</div>
+                    <div class="metrics">
+                        Red Displacement: [92, -29]<br>
+                        Green Displacement: [41, -16]<br>
+                        Time: 54.82 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/melons_out.jpeg" alt="Aligned Melons">
+                    <img class="original" src="assets/original/melons.jpeg" alt="Original Melons">
+                    <div class="photo-label">Melons</div>
+                    <div class="metrics">
+                        Red Displacement: [178, 13]<br>
+                        Green Displacement: [81, 10]<br>
+                        Time: 53.93 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/self_portrait_out.jpeg" alt="Aligned Self Portrait">
+                    <img class="original" src="assets/original/self_portrait.jpeg" alt="Original Self Portrait">
+                    <div class="photo-label">Self Portrait</div>
+                    <div class="metrics">
+                        Red Displacement: [176, 37]<br>
+                        Green Displacement: [78, 29]<br>
+                        Time: 54.48 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/siren_out.jpeg" alt="Aligned Siren">
+                    <img class="original" src="assets/original/siren.jpeg" alt="Original Siren">
+                    <div class="photo-label">Siren</div>
+                    <div class="metrics">
+                        Red Displacement: [95, -25]<br>
+                        Green Displacement: [49, -6]<br>
+                        Time: 54.45 sec
+                    </div>
+                </div>
+
+                <div class="photo-container">
+                    <img class="aligned" src="assets/aligned/three_generations_out.jpeg" alt="Aligned Three Generations">
+                    <img class="original" src="assets/original/three_generations.jpeg" alt="Original Three Generations">
+                    <div class="photo-label">Three Generations</div>
+                    <div class="metrics">
+                        Red Displacement: [112, 11]<br>
+                        Green Displacement: [53, 14]<br>
+                        Time: 51.05 sec
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Part 3: Bells & Whistles / Custom Enhancements -->
+    <div class="part">
+        <h2>Part 3: Bells & Whistles / Custom Enhancements</h2>
+        <p>Optional enhancements like white balance, automatic cropping, or better color mapping.</p>
+        <div style="text-align: center;">
+            <div class="photo-container">
+                <img class="aligned" src="assets/part3_img1.jpg" alt="Aligned Image 1">
+                <img class="original" src="assets/part3_img1_original.jpg" alt="Original Image 1">
+                <div class="photo-label">Image 1</div>
+                <div class="metrics">
+                    Displacement: (<span id="part3-img1-dx"></span>, <span id="part3-img1-dy"></span>)<br>
+                    Time: <span id="part3-img1-time"></span> sec
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Part 4: Challenges / Failures -->
+    <div class="part">
+        <h2>Part 4: Challenges / Failures</h2>
+        <p>Images that failed to align correctly and notes about why.</p>
+        <div style="text-align: center;">
+            <div class="photo-container">
+                <img class="aligned" src="assets/part4_img1.jpg" alt="Problematic Image 1">
+                <img class="original" src="assets/part4_img1_original.jpg" alt="Original Image 1">
+                <div class="photo-label">Image 1</div>
+                <div class="metrics">
+                    Notes: <span id="part4-img1-notes"></span><br>
+                    Displacement: (<span id="part4-img1-dx"></span>, <span id="part4-img1-dy"></span>)<br>
+                    Time: <span id="part4-img1-time"></span> sec
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="proj-spec">
+        Project 1 Spec: <a href="https://cal-cs180.github.io/fa25/hw/proj1/index.html" target="_blank">
+        Aligning Prokudin-Gorskii Images</a>
+    </div>
+
+</body>
+</html>
